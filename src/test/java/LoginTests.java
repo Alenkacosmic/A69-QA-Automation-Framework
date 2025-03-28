@@ -1,25 +1,50 @@
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-
 public class LoginTests extends BaseTest {
+    String invalidEmail = "vasyaPupkin@testpro.gogo";
+
     @Test
     public void loginEmptyEmailPassword() {
+        navigateToLoginPage();
 
-//      Added ChromeOptions argument below to fix websocket error
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
+        Assert.assertEquals(driver.getCurrentUrl(), loginUrl);
+    }
 
-        WebDriver driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    @Test
+    public void loginValidEmailValidPassword() {
+        navigateToLoginPage();
+        loginIntoApplication(validEmail, validPassword);
+    }
 
-        String url = "https://qa.koel.app/";
-        driver.get(url);
-        Assert.assertEquals(driver.getCurrentUrl(), url);
-        driver.quit();
+    @Test
+    public void loginInvalidEmailValidPassword() {
+        navigateToLoginPage();
+        fillInEmail("vasyaPupkin@testpro.gogo");
+        fillInPassword(validPassword);
+        submitLogin();
+
+        try {
+            Thread.sleep(2000); //Added try/catch since have latest setting with java forbade sleep without throw or catch
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Assert.assertEquals(driver.getCurrentUrl(), loginUrl); //Verify user stays on login page
+    }
+
+    @Test
+    public void loginValidEmailEmptyPassword() {
+        navigateToLoginPage();
+        fillInEmail(validEmail);
+        fillInPassword("");
+        submitLogin();
+
+        try {
+            Thread.sleep(2000); //Added try/catch since have latest setting with java forbade sleep without throw or catch
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Assert.assertEquals(driver.getCurrentUrl(), loginUrl); //Verify user stays on login page
     }
 }
+
