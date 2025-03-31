@@ -1,10 +1,3 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class Homework17 extends BaseTest {
@@ -14,13 +7,13 @@ public class Homework17 extends BaseTest {
 
     @Test
     public void addSongToPlaylist() {
-        navigateToLoginPage();
+        //Commented since before method updated with navigation to BaseURL: navigateToLoginPage();
         loginIntoApplication(validEmail, validPassword);
         //Create new playlist (to be deleted later)
         createNewPlaylist(playlistName);
         //Wait for playlist to be created
         try {
-            Thread.sleep(5000); //Added try/catch since have latest setting with java forbade sleep without throw or catch
+            Thread.sleep(2000); //Added try/catch since have latest setting with java forbade sleep without throw or catch
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -41,14 +34,14 @@ public class Homework17 extends BaseTest {
         //Navigate to the playlist
         openExistingPlaylist(playlistName);
         //Delete playlist for future tests
-        deleteExistingPlaylist();
+        deleteNonEmptyPlaylist();
         //Verify success notification displayed
         successNotificationDisplayed("Delete", playlistName);
     }
 
     @Test
     public void addSongAndPlaylist() {
-        navigateToLoginPage();
+        //Commented since before method updated with navigation to BaseURL: navigateToLoginPage();
         loginIntoApplication(validEmail, validPassword);
         //Search for a song
         searchFor(songName);
@@ -64,7 +57,7 @@ public class Homework17 extends BaseTest {
         successNotificationDisplayed("Create", playlistName);
         verifySectionTitle(playlistName);
         //Delete the playlist
-        deleteExistingPlaylist();
+        deleteNonEmptyPlaylist();
         //Verify success notification displayed
         successNotificationDisplayed("Delete", playlistName);
     }
