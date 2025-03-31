@@ -1,5 +1,5 @@
-import dev.failsafe.internal.util.Assert;
 import org.testng.annotations.Test;
+import org.testng.Assert;
 
 public class Homework18 extends BaseTest {
     @Test
@@ -8,6 +8,6 @@ public class Homework18 extends BaseTest {
         loginIntoApplication(validEmail, validPassword);
         clickNextSong();
         clickPlaySong();
-        Assert.isTrue(isSongPlayng(), "Song is not playing");
+        Assert.assertTrue(isSongPlayng(), "Song is not playing");
     }
 }
