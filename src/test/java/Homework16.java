@@ -11,8 +11,7 @@ import java.time.Duration;
 public class Homework16 extends BaseTest {
     @Test
     public void registrationNavigation() {
-        navigateToLoginPage();
-
+        //Commented since before method updated with navigation to BaseURL: navigateToLoginPage();
         WebElement registrationLink = driver.findElement(By.partialLinkText("Registration"));
         registrationLink.click();
         String registrationUrl = "https://qa.koel.app/registration";

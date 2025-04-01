@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Parameters;
 
 import java.time.Duration;
 import java.util.UUID;
@@ -66,9 +67,10 @@ public class BaseTest {
 
     //Playlist composites
     public void createNewPlaylist(String playlistName) {
-        WebElement addPlaylistButton = driver.findElement(By.cssSelector(".fa.fa-plus-circle.create"));
+        WebElement addPlaylistButton = driver.findElement(By.xpath("//i[@data-testid='sidebar-create-playlist-btn']"));
+        addPlaylistButton.isDisplayed();
         addPlaylistButton.click();
-        WebElement newPlaylistOption = driver.findElement(By.xpath("//li[text()='New Playlist']"));
+        WebElement newPlaylistOption = driver.findElement(By.xpath("//li[@data-testid='playlist-context-menu-create-simple']"));
         newPlaylistOption.isDisplayed();
         newPlaylistOption.click();
         WebElement playlistNameField = driver.findElement(By.xpath("//section[@id='playlists']//input"));
@@ -85,13 +87,18 @@ public class BaseTest {
         WebElement viewAllSearchResultsButton = driver.findElement(By.xpath("//div[@class='results']//button[contains(text(),'View All')]"));
         viewAllSearchResultsButton.click();
     }
-    public void deleteExistingPlaylist() {
+    public void deleteNonEmptyPlaylist() {
         WebElement deletePlaylistButton = driver.findElement(By.cssSelector(".del.btn-delete-playlist"));
         deletePlaylistButton.click();
         WebElement confirmationModal = driver.findElement(By.xpath("//div//p[contains(text(),'Delete the playlist')]"));
         confirmationModal.isDisplayed();
         WebElement confirmDeletion = driver.findElement(By.cssSelector(".ok"));
         confirmDeletion.click();
+    }
+    public void deleteEmptyPlaylist() {
+        WebElement deletePlaylistButton = driver.findElement(By.cssSelector(".del.btn-delete-playlist"));
+        deletePlaylistButton.isDisplayed();
+        deletePlaylistButton.click();
     }
     public void selectSong(String songIdentifier) {
         WebElement selectedSong = driver.findElement(By.xpath("//section[@id='songResultsWrapper']//td[text()='" + songIdentifier + "']"));
@@ -162,14 +169,19 @@ public class BaseTest {
         WebDriverManager.chromedriver().setup();
     }
 
+    @Parameters({"BaseUrl"})
     @BeforeMethod
-    public void launchBrowser() {
+    public void launchBrowserAndOpenLoginPage(String BaseUrl) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
 
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
+        //Navigate to login page
+        loginUrl = BaseUrl;
+        driver.get(loginUrl);
+        Assert.assertEquals(driver.getCurrentUrl(), loginUrl);
     }
 
     @AfterMethod
