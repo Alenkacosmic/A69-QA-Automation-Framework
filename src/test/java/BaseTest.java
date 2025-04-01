@@ -77,6 +77,7 @@ public class BaseTest {
     }
     public void searchFor(String searchParameter) {
         WebElement searchField = driver.findElement(By.cssSelector("#searchForm>input"));
+        searchField.clear();
         searchField.sendKeys(searchParameter);
         verifySectionTitle("Search Results");
     }
@@ -115,6 +116,20 @@ public class BaseTest {
         WebElement createdPlaylistLink = driver.findElement(By.xpath("//a[contains(text(),'" + existingPlaylistName + "')]"));
         createdPlaylistLink.click();
         verifySectionTitle(existingPlaylistName);
+    }
+
+    //Song controls
+    public void clickNextSong() {
+        WebElement nextSongButton = driver.findElement(By.xpath("//i[@data-testid='play-next-btn']"));
+        nextSongButton.click();
+    }
+    public void clickPlaySong() {
+        WebElement playSongButton = driver.findElement(By.xpath("//span[@data-testid='play-btn']"));
+        playSongButton.click();
+    }
+    public boolean isSongPlayng() {
+        WebElement soundBar = driver.findElement(By.xpath("//div[@data-testid='sound-bar-play']/img"));
+        return soundBar.isDisplayed();
     }
 
     //Useful composites
