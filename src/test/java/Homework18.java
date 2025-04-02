@@ -8,6 +8,6 @@ public class Homework18 extends BaseTest {
         loginIntoApplication(validEmail, validPassword);
         clickNextSong();
         clickPlaySong();
-        Assert.assertTrue(isSongPlayng(), "Song is not playing");
+        Assert.assertTrue(isSongPlaying(), "Song is not playing");
     }
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Homework18">
-
+    <parameter name="BaseUrl" value="https://qa.koel.app/"/>
     <test name="Play Song Test" preserve-order="false">
         <classes>
             <class name="Homework18">
