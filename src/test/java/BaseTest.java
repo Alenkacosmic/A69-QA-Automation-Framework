@@ -86,6 +86,17 @@ public class BaseTest {
         playlistNameField.sendKeys(Keys.ENTER);
         successNotificationDisplayed("Create", playlistName);
     }
+    public void renamePlaylist(String playlistName, String newPlaylistName) {
+        WebElement playlistLink = driver.findElement(By.xpath("//section[@id='playlists']//a[contains(text(),'" + playlistName + "')]"));
+        Actions actions = new Actions(driver);
+        actions.doubleClick(playlistLink).perform();
+        WebElement playlistNameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//section[@id='playlists']//a[contains(text(),'" + playlistName + "')]/following-sibling::input")));
+        playlistNameField.sendKeys(Keys.CONTROL + "a");
+        playlistNameField.sendKeys(Keys.DELETE);
+        playlistNameField.sendKeys(newPlaylistName);
+        playlistNameField.sendKeys(Keys.ENTER);
+        successNotificationDisplayed("Update", newPlaylistName);
+    }
     public void searchForSong(String searchParameter) {
         WebElement searchField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#searchForm>input")));
         searchField.clear();
@@ -158,7 +169,7 @@ public class BaseTest {
         return UUID.randomUUID().toString().replace("-", "");
     }
     public void successNotificationDisplayed(String action, String playlistName) {
-        //Expects action equals 'Create' or 'Delete' or 'Add'
+        //Expects action equals 'Create' or 'Delete' or 'Add' or 'Update'
         switch (action) {
             case "Create" ->
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='success show'][contains(text(),'Created playlist \"" + playlistName + ".\"')]")));
@@ -166,6 +177,8 @@ public class BaseTest {
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='success show'][contains(text(),'Deleted playlist \"" + playlistName + ".\"')]")));
             case "Add" ->
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='success show'][contains(text(),'Added 1 song into \"" + playlistName + ".\"')]")));
+            case "Update" ->
+                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='success show'][contains(text(),'Updated playlist \"" + playlistName + ".\"')]")));
         }
     }
     public void verifySectionTitle(String sectionTitleName) {
