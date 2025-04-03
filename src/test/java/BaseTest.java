@@ -25,6 +25,7 @@ public class BaseTest {
     public String validEmail = "elena.ioksha@testpro.io"; //added actual users login since we are training, otherwise never ever add actual credentials
     public String validPassword = "e1XeRcG9"; //added actual user password since we are training, otherwise never ever add actual credentials
     public String userName = "Elena Ioksha";
+    public static Actions actions = null;
 
     //Login page group
     public void navigateToLoginPage() {
@@ -77,14 +78,35 @@ public class BaseTest {
 
     //Playlist composites
     public void createNewPlaylist(String playlistName) {
-        WebElement addPlaylistButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#playlists i")));
-        addPlaylistButton.click();
-        WebElement addSimplePlaylistOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[@data-testid='playlist-context-menu-create-simple']")));
-        addSimplePlaylistOption.click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#playlists i"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[@data-testid='playlist-context-menu-create-simple']"))).click();
         WebElement playlistNameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//section[@id='playlists']//input")));
         playlistNameField.sendKeys(playlistName);
         playlistNameField.sendKeys(Keys.ENTER);
         successNotificationDisplayed("Create", playlistName);
+    }
+    public void renamePlaylistWithDoubleClick(String playlistName, String newPlaylistName) {
+        WebElement playlistLink = driver.findElement(By.xpath("//section[@id='playlists']//a[contains(text(),'" + playlistName + "')]"));
+        actions.doubleClick(playlistLink).perform();
+        WebElement playlistNameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//section[@id='playlists']//a[contains(text(),'" + playlistName + "')]/following-sibling::input")));
+        actions.keyDown(Keys.CONTROL)
+                .sendKeys("a")
+                .keyUp(Keys.CONTROL)
+                .sendKeys(newPlaylistName)
+                .sendKeys(Keys.ENTER)
+                .perform();
+        successNotificationDisplayed("Update", newPlaylistName);
+    }
+    public void renamePlaylistUsingMenu(String playlistName, String newPlaylistName) {
+        WebElement playlistLink = driver.findElement(By.xpath("//section[@id='playlists']//a[contains(text(),'" + playlistName + "')]"));
+        actions.contextClick(playlistLink).perform();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav[@class='menu playlist-item-menu']//li[text()='Edit']"))).click();
+        WebElement playlistNameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//section[@id='playlists']//a[contains(text(),'" + playlistName + "')]/following-sibling::input")));
+        playlistNameField.sendKeys(Keys.CONTROL + "a");
+        playlistNameField.sendKeys(Keys.DELETE);
+        playlistNameField.sendKeys(newPlaylistName);
+        playlistNameField.sendKeys(Keys.ENTER);
+        successNotificationDisplayed("Update", newPlaylistName);
     }
     public void searchForSong(String searchParameter) {
         WebElement searchField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#searchForm>input")));
@@ -137,14 +159,12 @@ public class BaseTest {
     public void clickNextSong() {
         //Using actions to make controls visible
         WebElement playerControls = driver.findElement(By.cssSelector(".side.player-controls"));
-        Actions actions = new Actions(driver);
         actions.moveToElement(playerControls).perform();
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//i[@data-testid='play-next-btn']"))).click();
     }
     public void clickPlaySong() {
         //Using actions to make controls visible
         WebElement playerControls = driver.findElement(By.cssSelector(".side.player-controls"));
-        Actions actions = new Actions(driver);
         actions.moveToElement(playerControls).perform();
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@data-testid='play-btn']"))).click();
     }
@@ -158,7 +178,7 @@ public class BaseTest {
         return UUID.randomUUID().toString().replace("-", "");
     }
     public void successNotificationDisplayed(String action, String playlistName) {
-        //Expects action equals 'Create' or 'Delete' or 'Add'
+        //Expects action equals 'Create' or 'Delete' or 'Add' or 'Update'
         switch (action) {
             case "Create" ->
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='success show'][contains(text(),'Created playlist \"" + playlistName + ".\"')]")));
@@ -166,6 +186,8 @@ public class BaseTest {
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='success show'][contains(text(),'Deleted playlist \"" + playlistName + ".\"')]")));
             case "Add" ->
                     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='success show'][contains(text(),'Added 1 song into \"" + playlistName + ".\"')]")));
+            case "Update" ->
+                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='success show'][contains(text(),'Updated playlist \"" + playlistName + ".\"')]")));
         }
     }
     public void verifySectionTitle(String sectionTitleName) {
@@ -191,6 +213,7 @@ public class BaseTest {
         driver.manage().window().maximize();
 
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        actions = new Actions(driver);
         loginUrl = BaseUrl;
         navigateToLoginPage();
     }
