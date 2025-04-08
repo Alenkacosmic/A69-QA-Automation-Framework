@@ -2,29 +2,40 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.HomePage;
+import pages.LoginPage;
 
 public class Homework21 extends BaseTest{
-    String playlistName = "First Playlist Name";
-    String newPlaylistName = "Updated Playlist Name";
+    String playlistName = generateRandomPlaylistName();
+    String newPlaylistName = generateRandomPlaylistName();
 
     @Test
     public void renamePlaylist() {
-        loginIntoApplication(validEmail, validPassword);
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
+
+        loginPage.loginIntoApplication(validEmail, validPassword);
+        Assert.assertTrue(homePage.isAvatarDisplayed());
         createNewPlaylist(playlistName);
-        verifySectionTitle(playlistName);
+        verifyPlaylistTitle(playlistName);
         renamePlaylistWithDoubleClick(playlistName, newPlaylistName);
-        verifySectionTitle(newPlaylistName);
+        verifyPlaylistTitle(newPlaylistName);
         deleteEmptyPlaylist();
     }
 
     @Test
     public void renamePlaylistThroughMenu() {
-        loginIntoApplication(validEmail, validPassword);
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
+
+        loginPage.loginIntoApplication(validEmail, validPassword);
+        Assert.assertTrue(homePage.isAvatarDisplayed());
         createNewPlaylist(playlistName);
-        verifySectionTitle(playlistName);
+        verifyPlaylistTitle(playlistName);
         renamePlaylistUsingMenu(playlistName, newPlaylistName);
-        verifySectionTitle(newPlaylistName);
+        verifyPlaylistTitle(newPlaylistName);
         deleteEmptyPlaylist();
     }
 }

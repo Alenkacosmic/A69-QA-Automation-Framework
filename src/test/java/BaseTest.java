@@ -13,8 +13,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
+import com.github.javafaker.Faker;
 
 import java.time.Duration;
+import java.util.Locale;
 import java.util.UUID;
 
 public class BaseTest {
@@ -31,25 +33,6 @@ public class BaseTest {
     public void navigateToLoginPage() {
         driver.get(loginUrl);
         Assert.assertEquals(driver.getCurrentUrl(), loginUrl);
-    }
-    public void fillInEmail(String userEmailAddress) {
-        WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='email']")));
-        emailField.clear();
-        emailField.sendKeys(userEmailAddress);
-    }
-    public void fillInPassword(String userPassword) {
-        WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='password']")));
-        passwordField.clear();
-        passwordField.sendKeys(userPassword);
-    }
-    public void submitLogin() {
-        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button[type='submit']"))).click();
-    }
-    public void loginIntoApplication(String userEmailAddress, String userPassword) {
-        fillInEmail(userEmailAddress);
-        fillInPassword(userPassword);
-        submitLogin();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img[class='avatar']")));
     }
 
     //Profile settings and editing group
@@ -174,9 +157,6 @@ public class BaseTest {
     }
 
     //Useful composites
-    public String generateRandomName() {
-        return UUID.randomUUID().toString().replace("-", "");
-    }
     public void successNotificationDisplayed(String action, String playlistName) {
         //Expects action equals 'Create' or 'Delete' or 'Add' or 'Update'
         switch (action) {
@@ -193,9 +173,25 @@ public class BaseTest {
     public void verifySectionTitle(String sectionTitleName) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'" + sectionTitleName + "')]")));
     }
+    public void verifyPlaylistTitle(String playlistTitleName) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'" + playlistTitleName + "')]")));
+    }
     public void verifySuccessfulSearchResults(String searchParameter) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//section[@class='songs']//span[contains(text(),'" + searchParameter + "')]")));
     }
+    //Generators
+    public String generateRandomPlaylistName() {
+        Faker faker = new Faker(new Locale("en-US"));
+        String newPlaylistName = faker.color().name();
+        return newPlaylistName;
+    }
+    public String generateRandomUserName() {
+        Faker faker = new Faker(new Locale("en-US"));
+        String newUserName = faker.name().firstName();
+        return newUserName;
+    }
+
+
 
     @BeforeSuite
     static void setupClass() {
