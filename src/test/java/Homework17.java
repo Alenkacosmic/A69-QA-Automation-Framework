@@ -1,13 +1,21 @@
+import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.HomePage;
+import pages.LoginPage;
 
 public class Homework17 extends BaseTest {
     String songName = "BornKing";
-    String playlistName = "TestPlaylist";
+    String playlistName = generateRandomPlaylistName();
 
 
     @Test
     public void addSongToPlaylist() {
-        loginIntoApplication(validEmail, validPassword);
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
+
+        loginPage.loginIntoApplication(validEmail, validPassword);
+        Assert.assertTrue(homePage.isAvatarDisplayed());
+
         createNewPlaylist(playlistName);
         searchForSong(songName);
         verifySuccessfulSearchResults(songName);
@@ -22,7 +30,12 @@ public class Homework17 extends BaseTest {
 
     @Test
     public void addSongAndPlaylist() {
-        loginIntoApplication(validEmail, validPassword);
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
+
+        loginPage.loginIntoApplication(validEmail, validPassword);
+        Assert.assertTrue(homePage.isAvatarDisplayed());
+
         searchForSong(songName);
         verifySuccessfulSearchResults(songName);
         viewAllSearchResults();

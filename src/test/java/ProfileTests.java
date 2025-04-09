@@ -2,13 +2,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.HomePage;
+import pages.LoginPage;
 
 public class ProfileTests extends BaseTest {
     @Test
     public void changeProfileName() {
-        String generatedName = generateRandomName();
+        String generatedName = generateRandomUserName();
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
 
-        loginIntoApplication(validEmail, validPassword);
+        loginPage.loginIntoApplication(validEmail, validPassword);
+        Assert.assertTrue(homePage.isAvatarDisplayed());
         openProfileSettings();
         enterCurrentPassword(validPassword);
         editProfileName(generatedName);
@@ -16,7 +21,7 @@ public class ProfileTests extends BaseTest {
         WebElement profileName = driver.findElement(By.cssSelector(".view-profile>span"));
         Assert.assertEquals(profileName.getText(), generatedName);
 
-        //Return original profile name (for future tests)
+        //Return original profile name
         enterCurrentPassword(validPassword);
         editProfileName(userName);
         saveProfile();
