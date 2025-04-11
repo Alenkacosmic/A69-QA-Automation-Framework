@@ -1,17 +1,23 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 public class HomePage extends BasePage{
     public HomePage(WebDriver givenDriver) {
         super(givenDriver);
     }
 
-    By avatarIcon = By.cssSelector("img[class='avatar']");
+    @FindBy(css = "img[class='avatar']") WebElement avatarIcon;
+    @FindBy(css = "a[class='view-profile']") WebElement openUserProfileButton;
 
     public boolean isAvatarDisplayed() {
-        return driver.findElement(avatarIcon).isDisplayed();
+        return avatarIcon.isDisplayed();
+    }
+
+    public void openProfileSettings() {
+        openUserProfileButton.click();
+        verifySectionTitle("Profile & Preferences");
     }
 }
