@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class HomePage extends BasePage{
     public HomePage(WebDriver givenDriver) {
@@ -17,7 +18,7 @@ public class HomePage extends BasePage{
     }
 
     public void openProfileSettings() {
-        openUserProfileButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(openUserProfileButton)).click();
         verifySectionTitle("Profile & Preferences");
     }
 }
