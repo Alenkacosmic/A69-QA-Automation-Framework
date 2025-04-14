@@ -6,19 +6,20 @@ import pages.LoginPage;
 public class LoginTests extends BaseTest {
     @Test
     public void loginValidCredentials() {
-        LoginPage loginPage = new LoginPage(driver);
-        HomePage homePage = new HomePage(driver);
+        LoginPage loginPage = new LoginPage(getDriver());
+        HomePage homePage = new HomePage(getDriver());
 
         loginPage.loginIntoApplication(validEmail, validPassword);
         Assert.assertTrue(homePage.isAvatarDisplayed());
+        homePage.logout();
     }
 
     @Test(dataProvider = "invalidLoginData", dataProviderClass = TestDataProvider.class)
     public void loginInvalidCredentials(String invalidEmail, String invalidPassword) {
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(getDriver());
 
         loginPage.loginIntoApplication(invalidEmail, invalidPassword);
-        Assert.assertTrue(loginPage.isSubmitButtonDisplayed()); //Verify user stays on login page
+        Assert.assertTrue(loginPage.isSubmitButtonDisplayed());
     }
 }
 

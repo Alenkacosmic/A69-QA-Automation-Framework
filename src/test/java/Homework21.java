@@ -10,9 +10,9 @@ public class Homework21 extends BaseTest{
 
     @Test
     public void renamePlaylist() {
-        LoginPage loginPage = new LoginPage(driver);
-        HomePage homePage = new HomePage(driver);
-        Playlists playlists = new Playlists(driver);
+        LoginPage loginPage = new LoginPage(getDriver());
+        HomePage homePage = new HomePage(getDriver());
+        Playlists playlists = new Playlists(getDriver());
 
         loginPage.loginIntoApplication(validEmail, validPassword);
         Assert.assertTrue(homePage.isAvatarDisplayed());
@@ -27,9 +27,9 @@ public class Homework21 extends BaseTest{
 
     @Test
     public void renamePlaylistThroughMenu() {
-        LoginPage loginPage = new LoginPage(driver);
-        HomePage homePage = new HomePage(driver);
-        Playlists playlists = new Playlists(driver);
+        LoginPage loginPage = new LoginPage(getDriver());
+        HomePage homePage = new HomePage(getDriver());
+        Playlists playlists = new Playlists(getDriver());
 
         loginPage.loginIntoApplication(validEmail, validPassword);
         Assert.assertTrue(homePage.isAvatarDisplayed());

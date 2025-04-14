@@ -7,9 +7,9 @@ import pages.MusicPlayer;
 public class Homework18 extends BaseTest {
     @Test
     public void playSong() {
-        LoginPage loginPage = new LoginPage(driver);
-        HomePage homePage = new HomePage(driver);
-        MusicPlayer musicPlayer = new MusicPlayer(driver);
+        LoginPage loginPage = new LoginPage(getDriver());
+        HomePage homePage = new HomePage(getDriver());
+        MusicPlayer musicPlayer = new MusicPlayer(getDriver());
 
         loginPage.loginIntoApplication(validEmail, validPassword);
         Assert.assertTrue(homePage.isAvatarDisplayed());

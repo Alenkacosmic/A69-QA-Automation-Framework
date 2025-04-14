@@ -5,6 +5,8 @@ import pages.LoginPage;
 import pages.Playlists;
 import pages.Songs;
 
+import java.util.List;
+
 public class Homework17 extends BaseTest {
     String songName = "BornKing";
     String playlistName = generateRandomPlaylistName();
@@ -12,10 +14,10 @@ public class Homework17 extends BaseTest {
 
     @Test
     public void addSongToPlaylist() {
-        LoginPage loginPage = new LoginPage(driver);
-        HomePage homePage = new HomePage(driver);
-        Playlists playlists = new Playlists(driver);
-        Songs songs = new Songs(driver);
+        LoginPage loginPage = new LoginPage(getDriver());
+        HomePage homePage = new HomePage(getDriver());
+        Playlists playlists = new Playlists(getDriver());
+        Songs songs = new Songs(getDriver());
 
         loginPage.loginIntoApplication(validEmail, validPassword);
         Assert.assertTrue(homePage.isAvatarDisplayed());
@@ -36,10 +38,10 @@ public class Homework17 extends BaseTest {
 
     @Test
     public void addSongAndPlaylist() {
-        LoginPage loginPage = new LoginPage(driver);
-        HomePage homePage = new HomePage(driver);
-        Playlists playlists = new Playlists(driver);
-        Songs songs = new Songs(driver);
+        LoginPage loginPage = new LoginPage(getDriver());
+        HomePage homePage = new HomePage(getDriver());
+        Playlists playlists = new Playlists(getDriver());
+        Songs songs = new Songs(getDriver());
 
         loginPage.loginIntoApplication(validEmail, validPassword);
         Assert.assertTrue(homePage.isAvatarDisplayed());

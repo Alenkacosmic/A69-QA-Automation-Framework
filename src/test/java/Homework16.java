@@ -6,9 +6,9 @@ public class Homework16 extends BaseTest {
     @Test
     public void registrationNavigation() {
         String registrationUrl = "https://qa.koel.app/registration";
-        LoginPage loginpage = new LoginPage(driver);
+        LoginPage loginpage = new LoginPage(getDriver());
 
         loginpage.openRegistrationPage();
-        Assert.assertEquals(driver.getCurrentUrl(), registrationUrl);
+        Assert.assertEquals(getDriver().getCurrentUrl(), registrationUrl);
     }
 }

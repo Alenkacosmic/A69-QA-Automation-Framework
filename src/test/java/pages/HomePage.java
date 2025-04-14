@@ -12,6 +12,7 @@ public class HomePage extends BasePage{
 
     @FindBy(css = "img[class='avatar']") WebElement avatarIcon;
     @FindBy(css = "a[class='view-profile']") WebElement openUserProfileButton;
+    @FindBy(css = ".logout.control") WebElement logoutButton;
 
     public boolean isAvatarDisplayed() {
         return avatarIcon.isDisplayed();
@@ -20,5 +21,9 @@ public class HomePage extends BasePage{
     public void openProfileSettings() {
         wait.until(ExpectedConditions.elementToBeClickable(openUserProfileButton)).click();
         verifySectionTitle("Profile & Preferences");
+    }
+
+    public void logout() {
+        wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
     }
 }

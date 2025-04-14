@@ -8,9 +8,9 @@ public class ProfileTests extends BaseTest {
     @Test
     public void changeProfileName() {
         String generatedName = generateRandomUserName();
-        LoginPage loginPage = new LoginPage(driver);
-        HomePage homePage = new HomePage(driver);
-        UserProfilePage userProfile = new UserProfilePage(driver);
+        LoginPage loginPage = new LoginPage(getDriver());
+        HomePage homePage = new HomePage(getDriver());
+        UserProfilePage userProfile = new UserProfilePage(getDriver());
 
         loginPage.loginIntoApplication(validEmail, validPassword);
         Assert.assertTrue(homePage.isAvatarDisplayed());
