@@ -97,9 +97,9 @@ public class Playlists extends BasePage{
     }
 
     public void openExistingPlaylist(String existingPlaylistName) {
-        WebElement playlistLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//section[@id='playlists']//a[contains(text(),'" + existingPlaylistName + "')]")));
-        playlistLink.click();
-        verifySectionTitle(existingPlaylistName);
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//section[@id='playlists']//a[contains(text(),'" + existingPlaylistName + "')])[1]")))
+                .click();
+        verifyPlaylistTitle(existingPlaylistName);
     }
 
     public void verifyPlaylistTitle(String playlistTitleName) {

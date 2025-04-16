@@ -8,9 +8,9 @@ public class Homework19 extends BaseTest {
 
     @Test
     public void deletePlaylist() {
-        LoginPage loginPage = new LoginPage(driver);
-        HomePage homePage = new HomePage(driver);
-        Playlists playlists = new Playlists(driver);
+        LoginPage loginPage = new LoginPage(getDriver());
+        HomePage homePage = new HomePage(getDriver());
+        Playlists playlists = new Playlists(getDriver());
 
         String playlistName = generateRandomPlaylistName();
 
